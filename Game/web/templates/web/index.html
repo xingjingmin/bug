@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div align="center">
+<h1>bug gunali </h1></div>
+<a href="{% url 'add' %}">添加</a>
+<div class="all_content" align="center" >
+<table width=”80%” align=”center” border=”10″ bgcolor=”#DEDEDE” cellspacing=”10″ cellpadding="20" >
+<tr>
+    <th>项目名称</th>
+    <th>新增</th>
+    <th>修复</th>
+    <th>激活</th>
+    <th>忽略</th>
+    <th>剩余</th>
+    <th>致命</th>
+    <th>严重</th>
+    <th>普通</th>
+    <th>轻度</th>
+    <th>时间</th>
+    <th>测试人</th>
+    <br/>
+
+</tr>
+{% for all_list in page_list %}
+    <tr>
+    <td><a href="{% url 'modfy' all_list.id%}">{{all_list.demandname}}</a></td>
+        {% for b in all_list.state_set.all %}
+            <td>{{ b.addbug }}</td>
+            <td>{{ b.repair }}</td>
+            <td>{{ b.activation }}</td>
+            <td>{{ b.ignore }}</td>
+            <td>{{ b.surplus }}</td>
+            <td>{{ b.deadly }}</td>
+            <td>{{ b.serious }}</td>
+            <td>{{ b.ordinary }}</td>
+            <td>{{ b.light }}</td>
+                <td>{{ all_list.pub_date }}</td>
+             <td>{{ all_list.username }}</td>
+            <td><a href="{% url 'dele' all_list.id %}">删除</a></td>
+            <br/>
+           {% endfor %}
+    {% endfor %}
+    </tr>
+</table>
+</div>
+<div class="container" align="center">
+    <nav aria-label="Page navigation">
+    <table  width=”80%” align=”center” border=”10″ bgcolor=”#EEEEDE” cellspacing=”10″ cellpadding="10" >
+        <tr>
+            <td class="{% if not page.has_previous %}disabled{% endif %}">
+          {% if page.has_previous %}
+            <a href="{% url 'index' %}?page={{ page.previous_page_number }}" aria-label="Previous">
+          {% endif %}
+            <span aria-hidden="true">&laquo;</span>
+          </a></td>
+        {% for num in dis_range %}
+        <td class="{% if num == page.number %}active{% else %}{% endif %}">
+          <a href="{% url 'index' %}?page={{ num }}">{{ num }}</a>
+        {% endfor %}</td>
+        <td class="{% if not page.has_next %}disabled{% endif %}">
+          {% if page.has_next %}
+            <a href="{% url 'index' %}?page={{ page.next_page_number }}" aria-label="Next">
+          {% endif %}
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </tr>
+    </table>
+    </nav>
+</div>
+
+</body>
+</html>
